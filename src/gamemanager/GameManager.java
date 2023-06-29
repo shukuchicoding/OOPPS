@@ -77,8 +77,10 @@ public class GameManager extends GameSettings {
 	}
 
 	public void mabuFire() {
-		Rectangle mabuBound = mabu.getBound();
-		mabuBullet.add(new MabuBullet(mabuBound.x, mabuBound.y, mabuBulletSpeed));
+		if (!mabu.isDead) {
+			Rectangle mabuBound = mabu.getBound();
+			mabuBullet.add(new MabuBullet(mabuBound.x, mabuBound.y, mabuBulletSpeed));
+		}
 	}
 
 	public void draw(Graphics g) {

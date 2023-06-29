@@ -1,7 +1,8 @@
-/gameui/
-/gameinterface/
-/gamemanager/
-/gameobjects/
-/gameover_text1.png
-/gamestart_text1.png
-/icon.png
+/gamestart_text.png
+/jump.wav
+/mixkit-arcade-game-jump-coin-216.wav
+/replay_button.png
+/scoreup.wav
+/stone.png
+/tree.png
+/util/
