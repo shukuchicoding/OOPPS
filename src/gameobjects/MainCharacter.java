@@ -129,6 +129,9 @@ public class MainCharacter {
 			//g.drawImage(attackAnim.getFrame(), (int) posX, (int) posY, null);
 			break;
 		}
+		Rectangle bound = getBound();
+		g.setColor(Color.RED);
+		g.drawRect(bound.x, bound.y, bound.width, bound.height);
 	}
 	
 	public void update() {
@@ -146,8 +149,8 @@ public class MainCharacter {
 			}
 		}
 
-		if ( this.score > 150 * level){
-			speedX+=3;
+		if ( this.score > 200 * level){
+			speedX++;
 			level++;
 		}
 		if (posY >= LAND_POSY) {
@@ -232,24 +235,24 @@ public class MainCharacter {
 		rectBound = new Rectangle();
 		if (state == DOWN_RUN) {
 			rectBound.x = (int) posX + 5;
-			rectBound.y = (int) posY + 20;
+			rectBound.y = (int) posY + 30;
 			rectBound.width = downRunAnim.getFrame().getWidth() - 10;
-			rectBound.height = downRunAnim.getFrame().getHeight() - 10;
+			rectBound.height = downRunAnim.getFrame().getHeight();
 		} else if (state == NORMAL_RUN) {
 			rectBound.x = (int) posX + 5;
-			rectBound.y = (int) posY;
-			rectBound.width = normalRunAnim.getFrame().getWidth() - 10;
-			rectBound.height = normalRunAnim.getFrame().getHeight() - 10;
+			rectBound.y = (int) posY + 10;
+			rectBound.width = normalRunAnim.getFrame().getWidth() - 15;
+			rectBound.height = normalRunAnim.getFrame().getHeight() - 13;
 		} else if (state == ATTACK) {
-			rectBound.x = (int) posX + 5;
-			rectBound.y = (int) posY;
-			rectBound.width = attackAnim.getFrame().getWidth() - 10;
-			rectBound.height = attackAnim.getFrame().getHeight() - 10;
+			rectBound.x = (int) posX + 10;
+			rectBound.y = (int) posY + 10;
+			rectBound.width = attackAnim.getFrame().getWidth() - 30;
+			rectBound.height = attackAnim.getFrame().getHeight() - 13;
 		} else if (state == JUMPING) {
 			rectBound.x = (int) posX + 5;
-			rectBound.y = (int) posY;
-			rectBound.width = jumping.getWidth() - 10;
-			rectBound.height = jumping.getHeight() - 10;
+			rectBound.y = (int) posY + 10;
+			rectBound.width = jumping.getWidth() - 15;
+			rectBound.height = jumping.getHeight() - 13;
 		}
 		return rectBound;
 	}
