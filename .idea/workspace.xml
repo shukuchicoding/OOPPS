@@ -26,7 +26,10 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true"
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "git-widget-placeholder": "nguyen",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "E:/OOPPS"
   }
 }]]></component>
   <component name="RunManager">
