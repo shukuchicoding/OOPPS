@@ -1,7 +1,6 @@
 package gameobjects;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import gameinterface.GameSettings;
@@ -31,15 +30,18 @@ public class MabuBullet implements Object {
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(image, (int) posX, (int) posY, null);
+//		Rectangle bound = getBound();
+//		g.setColor(Color.RED);
+//		g.drawRect(bound.x, bound.y, bound.width, bound.height);
 	}
 
 	@Override
 	public Rectangle getBound() {
 		rectBound = new Rectangle();
 		rectBound.x = (int) posX + 5;
-		rectBound.y = (int) posY + 5;
-		rectBound.width = image.getWidth() - 10;
-		rectBound.height = image.getHeight() - 10;
+		rectBound.y = (int) posY + 10;
+		rectBound.width = image.getWidth() - 30;
+		rectBound.height = image.getHeight() - 15;
 		return rectBound;
 	}
 

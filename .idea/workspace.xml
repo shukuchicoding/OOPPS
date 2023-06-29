@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8e9b417-6cc7-4ca3-afa5-c3f912584115" name="Changes" comment="fix tang toc do game va doi ten game va icon va them dan k xuyen qua buu va test buu dead" />
+    <list default="true" id="d8e9b417-6cc7-4ca3-afa5-c3f912584115" name="Changes" comment="2 fix tang toc do game va doi ten game va icon va them dan k xuyen qua buu va test buu dead">
+      <change beforePath="$PROJECT_DIR$/src/gamemanager/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gamemanager/GameManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/MainCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/MainCharacter.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,7 +95,28 @@
       <option name="project" value="LOCAL" />
       <updated>1688053543380</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fix tang toc do game va doi ten game va icon va them dan k xuyen qua buu va test buu dead">
+      <created>1688053609569</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1688053609569</updated>
+    </task>
+    <task id="LOCAL-00008" summary="2 fix tang toc do game va doi ten game va icon va them dan k xuyen qua buu va test buu dead">
+      <created>1688053764766</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1688053764766</updated>
+    </task>
+    <task id="LOCAL-00009" summary="2 fix tang toc do game va doi ten game va icon va them dan k xuyen qua buu va test buu dead">
+      <created>1688057732644</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1688057732644</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -111,6 +135,7 @@
     <MESSAGE value="doi ten game va them dan k xuyen qua buu va test buu dead" />
     <MESSAGE value="tang toc do game va doi ten game va them dan k xuyen qua buu va test buu dead" />
     <MESSAGE value="fix tang toc do game va doi ten game va icon va them dan k xuyen qua buu va test buu dead" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix tang toc do game va doi ten game va icon va them dan k xuyen qua buu va test buu dead" />
+    <MESSAGE value="2 fix tang toc do game va doi ten game va icon va them dan k xuyen qua buu va test buu dead" />
+    <option name="LAST_COMMIT_MESSAGE" value="2 fix tang toc do game va doi ten game va icon va them dan k xuyen qua buu va test buu dead" />
   </component>
 </project>
