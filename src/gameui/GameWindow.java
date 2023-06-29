@@ -1,6 +1,6 @@
 package gameui;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class                                                                                                                                                                     GameWindow extends JFrame {
 	public static final int SCREEN_WIDTH = 800;
@@ -10,6 +10,8 @@ public class                                                                    
 		super("Ác mộng của Goku");
 		setSize(SCREEN_WIDTH, 235);
 		setLocation(400, 200);
+		ImageIcon img = new ImageIcon("data/icon.png");
+		setIconImage(img.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 
