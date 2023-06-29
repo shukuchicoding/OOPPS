@@ -7,32 +7,58 @@ import java.awt.image.BufferedImage;
 import gameinterface.Object;
 import util.Animation;
 import util.Resource;
+import util.TimeInterval;
 
 import javax.xml.transform.Source;
 
 public class MaBu implements Object {
 
-	private float posX;
-	private float posY;
-	private float speedY;
-	private int directionY;
+	public static final int NORMAL = 0;
+	public static final int PRE_ATTACK = 1;
+	public static final int ATTACK = 3;
+	public static final int BE_HIT = 4;
+	public static final int WIN = 5;
+	public static final int DEAD = 6;
 
-	private int hitPoint = 3;
-	private int beAttacked;
-	private BufferedImage image;
-	private Rectangle rectBound;
+	public int state;
+
+	public float posX;
+	public float posY;
+	public float speedY;
+	public int directionY;
+
+	public int hitPoint = 3;
+	public int beAttacked;
 	public long deadTime;
-	public boolean isDead;
+
+	public long previousShoot; // milisecond
+	public long prepareTime;
+	public long previousBeHit;
+	public int shootingTimeout = 500;
+	public int beHitTimeout = 200;
+
+	public Rectangle rectBound;
+	public BufferedImage normalImage;
+	public BufferedImage prepareAtkImage;
+	public BufferedImage attackImage;
+	public BufferedImage beHitImage;
+	public BufferedImage winImage;
 
 	public MaBu(float posX, float posY, float speedY, int directionY) {
-		image = Resource.getResourceImage("data/Buu_0.png");
 		this.posX = posX;
 		this.posY = posY;
 		this.speedY = speedY;
 		this.directionY = directionY;
 		beAttacked = 0;
 		deadTime = 0;
-		isDead = false;
+
+		state = NORMAL;
+
+		normalImage = Resource.getResourceImage("data/Buu_0.png");
+		prepareAtkImage = Resource.getResourceImage("data/Buu_1.png");
+		attackImage = Resource.getResourceImage("data/Buu_2.png");
+		beHitImage = Resource.getResourceImage("data/Buu_3.png");
+		winImage = Resource.getResourceImage("data/Buu_4.png");
 	}
 
 	@Override
@@ -42,15 +68,46 @@ public class MaBu implements Object {
 		}
 		posY += directionY * speedY;
 
-		if ((System.currentTimeMillis() - deadTime > 4000) && isDead) {
+		if ((System.currentTimeMillis() - deadTime > 4000) && isDead()) {
 			resetBeAttacked();
+		}
+
+		if (state == ATTACK &&
+				System.currentTimeMillis() - prepareTime >= shootingTimeout * 2) {
+			state = NORMAL;
+		}
+
+		if (state == BE_HIT &&
+				System.currentTimeMillis() - previousBeHit >= beHitTimeout) {
+			state = NORMAL;
 		}
 	}
 
 	@Override
 	public void draw(Graphics g) {
-		if (!isDead) {
-			g.drawImage(image, (int) posX, (int) posY, null);
+		if (!isDead()) {
+			switch (state) {
+				case NORMAL:
+					g.drawImage(normalImage,
+							(int) posX, (int) posY, null);
+					break;
+				case PRE_ATTACK:
+					g.drawImage(prepareAtkImage,
+							(int) posX, (int) posY, null);
+					break;
+				case ATTACK:
+					g.drawImage(attackImage,
+							(int) posX, (int) posY, null);
+					break;
+				case BE_HIT:
+					g.drawImage(beHitImage,
+							(int) posX, (int) posY, null);
+					break;
+				case WIN:
+					g.drawImage(winImage,
+							(int) posX, (int) posY, null);
+					break;
+			}
 		}
 	}
 
@@ -59,8 +116,8 @@ public class MaBu implements Object {
 		rectBound = new Rectangle();
 		rectBound.x = (int) posX + 5;
 		rectBound.y = (int) posY + 5;
-		rectBound.width = image.getWidth() - 10;
-		rectBound.height = image.getHeight() - 10;
+		rectBound.width = normalImage.getWidth() - 10;
+		rectBound.height = normalImage.getHeight() - 10;
 		return rectBound;
 	}
 
@@ -71,12 +128,19 @@ public class MaBu implements Object {
 	}
 
 	public void dead(boolean isDeath) {
-		isDead = true;
+		state = DEAD;
 		deadTime = System.currentTimeMillis();
 	}
 
+	public boolean isDead() {
+		if (state == DEAD) {
+			return true;
+		}
+		return false;
+	}
+
 	public void revive(boolean isRevive) {
-		isDead = false;
+		// isDead() = false;
 	}
 
 	public int getHitPoint() {
@@ -92,8 +156,38 @@ public class MaBu implements Object {
 	}
 
 	public void resetBeAttacked() {
+		previousShoot = System.currentTimeMillis();
 		beAttacked = 0;
-		isDead = false;
+		// isDead = false;
+		state = NORMAL;
 	}
 
+	public void preAttack() {
+		state = PRE_ATTACK;
+		prepareTime = System.currentTimeMillis();
+	}
+
+	public void attack() {
+		state = ATTACK;
+	}
+
+	public void beHit() {
+		state = BE_HIT;
+		previousBeHit = System.currentTimeMillis();
+	}
+
+	public void win() {
+		state = WIN;
+	}
+
+	public void normal() {
+		state = NORMAL;
+	}
+
+	public boolean isPrepare() {
+		if (state == PRE_ATTACK) {
+			return true;
+		}
+		return false;
+	}
 }
