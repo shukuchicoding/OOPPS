@@ -15,7 +15,7 @@ public class MaBu implements Object {
 	private int directionY;
 
 	private int hitPoint = 3;
-	public int beAttacked = 0;
+	private int beAttacked;
 	private BufferedImage image;
 	private Rectangle rectBound;
 
@@ -25,6 +25,7 @@ public class MaBu implements Object {
 		this.posY = posY;
 		this.speedY = speedY;
 		this.directionY = directionY;
+		beAttacked = 0;
 	}
 
 	@Override
@@ -68,5 +69,13 @@ public class MaBu implements Object {
 
 	public int getHitPoint(){
 		return hitPoint;
+	}
+
+	public int getBeAttacked(){
+		return beAttacked;
+	}
+
+	public void addBeAttacked(){
+		beAttacked++;
 	}
 }
