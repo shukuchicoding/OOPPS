@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d8e9b417-6cc7-4ca3-afa5-c3f912584115" name="Changes" comment="them dan k xuyen qua buu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gamemanager/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gamemanager/GameManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/MaBu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/MaBu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameui/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameui/GameWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +50,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688031575974</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="them dan k xuyen qua buu">
+      <created>1688044885167</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1688044885167</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

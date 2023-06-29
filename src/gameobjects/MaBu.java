@@ -14,7 +14,7 @@ public class MaBu implements Object {
 	private float speedY;
 	private int directionY;
 
-	private int hitPoint;
+	private int hitPoint = 3;
 	public int beAttacked = 0;
 	private BufferedImage image;
 	private Rectangle rectBound;
@@ -29,7 +29,7 @@ public class MaBu implements Object {
 
 	@Override
 	public void update() {
-		if (posY <= 0 || posY >= 40) {
+		if (posY <= 0 || posY >= 45) {
 			directionY *= -1;
 		}
 		posY += directionY * speedY;
@@ -58,11 +58,15 @@ public class MaBu implements Object {
 
 
 	public void dead (boolean isDeath) {
-		
+		System.out.println("Buu is dead");
+		beAttacked = 0;
 	}
 	
 	public void revive (boolean isRevive) {
 		
 	}
 
+	public int getHitPoint(){
+		return hitPoint;
+	}
 }

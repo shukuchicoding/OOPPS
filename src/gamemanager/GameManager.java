@@ -56,6 +56,9 @@ public class GameManager extends GameSettings{
 		if (this.isCollision1()) {
 			mabu.beAttacked++;
 			System.out.println(mabu.beAttacked);
+			if (mabu.beAttacked == mabu.getHitPoint()){
+				mabu.dead(true);
+			}
 		}
 	}
 	
