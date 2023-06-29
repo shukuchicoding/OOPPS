@@ -78,4 +78,8 @@ public class MaBu implements Object {
 	public void addBeAttacked(){
 		beAttacked++;
 	}
+
+	public void resetBeAttacked(){
+		beAttacked = 0;
+	}
 }

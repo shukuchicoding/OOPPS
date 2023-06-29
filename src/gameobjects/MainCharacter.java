@@ -147,7 +147,7 @@ public class MainCharacter {
 		}
 
 		if ( this.score > 150 * level){
-			this.setSpeedX(speedX);
+			speedX+=3;
 			level++;
 		}
 		if (posY >= LAND_POSY) {
@@ -210,14 +210,19 @@ public class MainCharacter {
 	public void reset() {
 		posY = LAND_POSY;
 		score = 0;
+		level = 1;
 	}
 	
 	public void playDeadSound() {
 		deadSound.play();
 	}
 	
-	public void upScore() {
-		score += 20;
+	public void upScore(int type) {
+		if (type == 1) {
+			score += 20;
+		}else{
+			score += 25;
+		}
 		if (score % 100 == 0) {
 			scoreUpSound.play();
 		}
@@ -229,22 +234,22 @@ public class MainCharacter {
 			rectBound.x = (int) posX + 5;
 			rectBound.y = (int) posY + 20;
 			rectBound.width = downRunAnim.getFrame().getWidth() - 10;
-			rectBound.height = downRunAnim.getFrame().getHeight();
+			rectBound.height = downRunAnim.getFrame().getHeight() - 10;
 		} else if (state == NORMAL_RUN) {
 			rectBound.x = (int) posX + 5;
 			rectBound.y = (int) posY;
 			rectBound.width = normalRunAnim.getFrame().getWidth() - 10;
-			rectBound.height = normalRunAnim.getFrame().getHeight();
+			rectBound.height = normalRunAnim.getFrame().getHeight() - 10;
 		} else if (state == ATTACK) {
 			rectBound.x = (int) posX + 5;
 			rectBound.y = (int) posY;
 			rectBound.width = attackAnim.getFrame().getWidth() - 10;
-			rectBound.height = attackAnim.getFrame().getHeight();
+			rectBound.height = attackAnim.getFrame().getHeight() - 10;
 		} else if (state == JUMPING) {
 			rectBound.x = (int) posX + 5;
 			rectBound.y = (int) posY;
 			rectBound.width = jumping.getWidth() - 10;
-			rectBound.height = jumping.getHeight();
+			rectBound.height = jumping.getHeight() - 10;
 		}
 		return rectBound;
 	}
@@ -261,4 +266,5 @@ public class MainCharacter {
 	public boolean getAttackCheck(){
 		return attackCheck;
 	}
+
 }

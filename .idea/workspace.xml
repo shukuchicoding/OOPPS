@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8e9b417-6cc7-4ca3-afa5-c3f912584115" name="Changes" comment="doi ten game va them dan k xuyen qua buu va test buu dead">
+    <list default="true" id="d8e9b417-6cc7-4ca3-afa5-c3f912584115" name="Changes" comment="tang toc do game va doi ten game va them dan k xuyen qua buu va test buu dead">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gameinterface/GameSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameinterface/GameSettings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gamemanager/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gamemanager/GameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gameobjects/MaBu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/MaBu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gameobjects/MainCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/MainCharacter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gameui/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameui/GameScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameui/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameui/GameWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +75,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688046108431</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="tang toc do game va doi ten game va them dan k xuyen qua buu va test buu dead">
+      <created>1688049459281</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1688049459281</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -92,6 +99,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="them dan k xuyen qua buu" />
     <MESSAGE value="doi ten game va them dan k xuyen qua buu va test buu dead" />
-    <option name="LAST_COMMIT_MESSAGE" value="doi ten game va them dan k xuyen qua buu va test buu dead" />
+    <MESSAGE value="tang toc do game va doi ten game va them dan k xuyen qua buu va test buu dead" />
+    <option name="LAST_COMMIT_MESSAGE" value="tang toc do game va doi ten game va them dan k xuyen qua buu va test buu dead" />
   </component>
 </project>

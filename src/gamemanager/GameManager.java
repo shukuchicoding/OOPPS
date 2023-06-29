@@ -55,6 +55,7 @@ public class GameManager extends GameSettings{
 		}
 		if (this.isCollision1()) {
 			mabu.addBeAttacked();
+			mainCharacter.upScore(2);
 			System.out.println(mabu.getBeAttacked());
 			if (mabu.getBeAttacked() == mabu.getHitPoint()){
 				mabu.dead(true);
@@ -93,7 +94,7 @@ public class GameManager extends GameSettings{
 		
 		Object obstacle = obstacles.get(0);
 		if (obstacle.isOutOfScreen()) {
-			mainCharacter.upScore();
+			mainCharacter.upScore(1);
 			obstacles.remove(0);
 			obstacles.add(createObstacle());
 		}
@@ -166,5 +167,6 @@ public class GameManager extends GameSettings{
 		obstacles.clear();
 		obstacles.add(createObstacle());
 		mabuBullet.clear();
+		mabu.resetBeAttacked();
 	}
 }
