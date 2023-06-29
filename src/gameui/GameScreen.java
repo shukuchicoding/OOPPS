@@ -84,9 +84,9 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 		switch (gameState) {
 		case START_GAME_STATE:
 			mainCharacter.draw(g);
-			g.drawImage(gameStartButtonImage, 300, 30, null);
-			bounds = new Rectangle(293, 50, 200, 30);
-			g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+			g.drawImage(gameStartButtonImage, 250, 30, null);
+			bounds = new Rectangle(250, 30, 300, 49);
+			//g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
 			break;
 		case GAME_PLAYING_STATE:
 		case GAME_OVER_STATE:
@@ -114,16 +114,18 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 
 
 
-			g.setColor(Color.RED);
+			//g.setColor(Color.RED);
+			g.setColor(Color.BLACK);
 			g.drawString("SCORE: " + mainCharacter.score, 680, 20);
 
 			if (gameState == GAME_OVER_STATE) {
 				bullets.clear();
-				g.drawImage(gameOverButtonImage, 300, 20, null);
+				g.drawImage(gameOverButtonImage, 270, 20, null);
 				g.drawImage(replayButtonImage, 378, 74, null);
+				g.setColor(Color.WHITE);
 				g.drawString("TOTAL SCORE: " + mainCharacter.score, 330, 130);
-				bounds = new Rectangle(250, 25, 290, 120);
-				g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+				bounds = new Rectangle(378, 74, 34, 30);
+				//g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
 			}
 			break;
 		}
