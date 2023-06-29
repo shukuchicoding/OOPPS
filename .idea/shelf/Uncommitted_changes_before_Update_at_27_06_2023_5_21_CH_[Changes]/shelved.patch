@@ -1,0 +1,146 @@
+Index: src/gameui/GameScreen.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package gameui;\r\n\r\nimport java.awt.*;\r\nimport java.awt.event.KeyEvent;\r\nimport java.awt.event.KeyListener;\r\nimport java.awt.event.MouseEvent;\r\nimport java.awt.event.MouseListener;\r\nimport java.awt.image.BufferedImage;\r\n\r\nimport javax.swing.JPanel;\r\n\r\nimport gameobjects.Cloud;\r\nimport gameobjects.EnemyManager;\r\nimport gameobjects.Land;\r\nimport gameobjects.MainCharacter;\r\nimport util.Resource;\r\n\r\npublic class GameScreen extends JPanel implements Runnable, KeyListener, MouseListener {\r\n\tprivate static final int START_GAME_STATE = 0;\r\n\tprivate static final int GAME_PLAYING_STATE = 1;\r\n\tprivate static final int GAME_OVER_STATE = 2;\r\n\t\r\n\tprivate Land land;\r\n\tprivate MainCharacter mainCharacter;\r\n\tprivate EnemyManager enemyManager;\r\n\tprivate Cloud clouds;\r\n\tprivate Thread thread;\r\n\t\r\n\tprivate boolean isKeyPressed;\r\n\t\r\n\tprivate int gameState = START_GAME_STATE;\r\n\t\r\n\tprivate BufferedImage startImage;\r\n\tprivate BufferedImage replayButtonImage;\r\n\tprivate BufferedImage gameOverButtonImage;\r\n\tprivate BufferedImage gameStartButtonImage;\r\n\tprivate BufferedImage bgGameImage;\r\n\tprivate Rectangle bounds;\r\n\r\n\tpublic GameScreen() {\r\n\t\t\r\n\t\t\r\n\r\n\t\tmainCharacter = new MainCharacter();\r\n\t\t//land = new Land(GameWindow.SCREEN_WIDTH, mainCharacter);\r\n\t\tmainCharacter.setSpeedX(4);\r\n\r\n\t\treplayButtonImage = Resource.getResourceImage(\"data/replay_button.png\");\r\n\t\tgameOverButtonImage = Resource.getResourceImage(\"data/gameover_text.png\");\r\n\t\tgameStartButtonImage = Resource.getResourceImage(\"data/gamestart_text.png\");\r\n\t\tbgGameImage = Resource.getResourceImage(\"data/bg1.png\");\r\n\t\tenemyManager = new EnemyManager(mainCharacter);\r\n\t\tclouds = new Cloud(GameWindow.SCREEN_WIDTH, mainCharacter);\t\r\n\t\t\r\n\t\t\r\n\t}\r\n\t\r\n\tpublic void startGame() {\r\n\t\tthread = new Thread(this);\r\n\t\tthread.start();\r\n\t\tthis.addMouseListener(this);\r\n\t}\r\n\r\n\tpublic void gameUpdate() {\r\n\t\tif (gameState == GAME_PLAYING_STATE) {\r\n\t\t\tclouds.update();\r\n\t\t\t//land.update();\r\n\t\t\tmainCharacter.update();\r\n\t\t\tenemyManager.update();\r\n\t\t\tif (enemyManager.isCollision()) {\r\n\t\t\t\tmainCharacter.playDeadSound();\r\n\t\t\t\tgameState = GAME_OVER_STATE;\r\n\t\t\t\tmainCharacter.dead(true);\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\t@Override\r\n\tpublic void paint(Graphics g) {\r\n\t\tg.setColor(Color.decode(\"#f7f7f7\"));\r\n\t\tg.fillRect(0, 0, getWidth(), getHeight());\r\n\t\tg.drawImage(bgGameImage, 0, 0,null);\r\n\t\tg.setFont(new Font(\"TimesRoman\", Font.BOLD, 15   ));\r\n\t\t\r\n\t\tswitch (gameState) {\r\n\t\tcase START_GAME_STATE:\r\n\t\t\tmainCharacter.draw(g);\r\n\t\t\tg.drawImage(gameStartButtonImage, 300, 30, null);\r\n\t\t\tbounds = new Rectangle(293, 50, 200, 30);\r\n\t\t\tg.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);\r\n\t\t\tbreak;\r\n\t\tcase GAME_PLAYING_STATE:\r\n\t\tcase GAME_OVER_STATE:\r\n\t\t\t\tclouds.draw(g);\r\n\t\t\t\t//land.draw(g);\r\n\t\t\t\tenemyManager.draw(g);\r\n\t\t\t\tmainCharacter.draw(g);\r\n\t\t\t\tg.setColor(Color.BLACK);\r\n\t\t\t\tg.drawString(\"SCORE: \" + mainCharacter.score, 680, 20);\r\n\t\t\t\tif(gameState == GAME_OVER_STATE) {\r\n\t\t\t\t\tg.drawImage(gameOverButtonImage, 300, 20, null);\r\n\t\t\t\t\tg.drawImage(replayButtonImage, 378, 74, null);\r\n\t\t\t\t\tg.drawString(\"TOTAL SCORE: \" + mainCharacter.score, 330, 130);\r\n\t\t\t\t\tbounds = new Rectangle(250, 25, 290, 120);\r\n\t\t\t\t\tg.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);\r\n\t\t\t\t}\r\n\t\t\t\tbreak;\r\n\t\t}\r\n\t}\r\n\t\r\n\t@Override\r\n\tpublic void run() {\r\n\t\tint fps = 100;\r\n\t\tlong msPerFrame = 1000 * 1000000 / fps;\r\n\t\tlong lastTime = 0;\r\n\t\tlong elapsed;\r\n\t\t\r\n\t\tint msSleep;\r\n\t\tint nanoSleep;\r\n\t\t\r\n\t\tlong endProcessGame;\r\n\t\tlong lag = 0;\r\n\t\t\r\n\t\twhile (true) {\r\n\t\t\tgameUpdate();\r\n\t\t\trepaint();\r\n\t\t\tendProcessGame = System.nanoTime();\r\n\t\t\telapsed = (lastTime + msPerFrame - System.nanoTime());\r\n\t\t\tmsSleep = (int)(elapsed / 1000000);\r\n//\t\t\tnanoSleep = (int)(elapsed % 1000000);\r\n\t\t\tif (msSleep <= 0) {\r\n\t\t\t\tlastTime = System.nanoTime();\r\n\t\t\t\tcontinue;\r\n\t\t\t}\r\n\t\t\ttry {\r\n\t\t\t\tThread.sleep(msSleep);\r\n\t\t\t} catch (InterruptedException e) {\r\n\t\t\t\t// TODO Auto-generated catch block\r\n\t\t\t\te.printStackTrace();\r\n\t\t\t}\r\n\t\t\tlastTime = System.nanoTime();\r\n\t\t}\r\n\t}\r\n\t@Override\r\n\tpublic void keyPressed(KeyEvent e) {\r\n\t\tif (!isKeyPressed) {\r\n\t\t\tisKeyPressed = true;\r\n//\t\t\tSystem.out.println(\"keyPressed \"+e.getKeyCode());\r\n\t\t\tswitch (gameState) {\r\n\t\t\tcase START_GAME_STATE:\r\n//\t\t\t\tif (e.getKeyCode() == KeyEvent.VK_SPACE) {\r\n//\t\t\t\t\tmainCharacter.jump();\r\n//\t\t\t\t}\r\n//\t\t\t\telse if (e.getKeyCode() == KeyEvent.VK_DOWN) {\r\n//\t\t\t\t\tmainCharacter.down(true);\r\n//\t\t\t\t}\r\n\t\t\t\tgameState = GAME_PLAYING_STATE;\r\n\r\n\t\t\t\tbreak;\r\n\t\t\tcase GAME_PLAYING_STATE:\r\n\t\t\t\tif (e.getKeyCode() == KeyEvent.VK_SPACE) {\r\n\t\t\t\t\tmainCharacter.jump();\r\n\t\t\t\t}\r\n\t\t\t\tif (e.getKeyCode() == KeyEvent.VK_DOWN) {\r\n\t\t\t\t\tmainCharacter.down(true);\r\n\t\t\t\t}\r\n\t\t\t\tif (e.getKeyCode() == KeyEvent.VK_A) {\r\n\t\t\t\t\tmainCharacter.attack(true);\r\n\t\t\t\t}\r\n\t\t\t\tbreak;\r\n\t\t\tcase GAME_OVER_STATE:\r\n\t\t\t\tif (e.getKeyCode() == KeyEvent.VK_SPACE) {\r\n\t\t\t\t\tgameState = GAME_PLAYING_STATE;\r\n\t\t\t\t\tresetGame();\r\n\t\t\t\t}\r\n\r\n\t\t\t\tbreak;\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\t@Override\r\n\tpublic void keyReleased(KeyEvent e) {\r\n\t\tisKeyPressed = false;\r\n\t\tif (gameState == GAME_PLAYING_STATE) {\r\n\t\t\tif (e.getKeyCode() == KeyEvent.VK_DOWN) {\r\n\t\t\t\tmainCharacter.down(false);\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\t@Override\r\n\tpublic void keyTyped(KeyEvent e) {\r\n\t\t\r\n\t}\r\n\t\r\n\tpublic void resetGame() {\r\n\t\tenemyManager.reset();\r\n\t\tmainCharacter.dead(false);\r\n\t\tmainCharacter.reset();\r\n\r\n\t}\r\n\r\n\t@Override\r\n\tpublic void mouseClicked(MouseEvent e) {\r\n\t\tPoint clicked = e.getPoint();\r\n\t\tif (bounds != null) {\r\n\t\t\tif (bounds.contains(clicked) && gameState == GAME_OVER_STATE) {\r\n\t\t\t\tgameState = GAME_PLAYING_STATE;\r\n\t\t\t\tresetGame();\r\n\t\t\t} else if (bounds.contains(clicked) && gameState == START_GAME_STATE) {\r\n\t\t\t\tgameState = GAME_PLAYING_STATE;\r\n\t\t\t\tresetGame();\r\n\t\t\t}\r\n\t\t\t\t\r\n\t\t\t\t\r\n\t\t\telse return;\r\n\t\t}\r\n\r\n\t}\r\n\r\n\t@Override\r\n\tpublic void mousePressed(MouseEvent e) {\r\n\r\n\t}\r\n\r\n\t@Override\r\n\tpublic void mouseReleased(MouseEvent e) {\r\n\r\n\t}\r\n\r\n\t@Override\r\n\tpublic void mouseEntered(MouseEvent e) {\r\n\r\n\t}\r\n\r\n\t@Override\r\n\tpublic void mouseExited(MouseEvent e) {\r\n\r\n\t}\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/gameui/GameScreen.java b/src/gameui/GameScreen.java
+--- a/src/gameui/GameScreen.java	(revision eb76a3de131f0d2cc8c285125d0fac6bd6d72bdd)
++++ b/src/gameui/GameScreen.java	(date 1687847990792)
+@@ -157,7 +157,7 @@
+ 
+ 				break;
+ 			case GAME_PLAYING_STATE:
+-				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
++				if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP) {
+ 					mainCharacter.jump();
+ 				}
+ 				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+Index: src/gameobjects/MainCharacter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package gameobjects;\r\n\r\nimport java.applet.Applet;\r\nimport java.applet.AudioClip;\r\nimport java.awt.Color;\r\nimport java.awt.Graphics;\r\nimport java.awt.Rectangle;\r\nimport java.awt.image.BufferedImage;\r\nimport java.net.MalformedURLException;\r\nimport java.net.URL;\r\n\r\nimport util.Animation;\r\nimport util.Resource;\r\n\r\npublic class MainCharacter {\r\n\tpublic static final int LAND_POSY = 95; \r\n\tpublic static final float GRAVITY = 0.4f;\r\n\t\r\n\tprivate static final int NORMAL_RUN = 0;\r\n\tprivate static final int JUMPING = 1;\r\n\tprivate static final int DOWN_RUN = 2;\r\n\tprivate static final int ATTACK = 3;\r\n\tprivate static final int DEATH = 4;\r\n\tprivate static final int START = 5; // update them trang thai start\r\n\t\r\n\tprivate float posX;\r\n\tprivate float posY;\r\n\tprivate float speedX;\r\n\tprivate float speedY;\r\n\tprivate Rectangle rectBound;\r\n\t\r\n\tpublic int score = 0;\r\n\t\r\n\tprivate int state = START;\r\n\t\r\n\tprivate BufferedImage startImage;\r\n\tprivate Animation normalRunAnim;\r\n\tprivate BufferedImage jumping;\r\n\tprivate Animation downRunAnim;\r\n\tprivate BufferedImage deathImage;\r\n\tprivate Animation attackAnim;\r\n\t\r\n\tprivate AudioClip jumpSound;\r\n\tprivate AudioClip deadSound;\r\n\tprivate AudioClip scoreUpSound;\r\n\t\r\n\tpublic MainCharacter() {\r\n\t\tposX = 50;\r\n\t\tposY = LAND_POSY;\r\n\t\trectBound = new Rectangle();\r\n\t\tstartImage = Resource.getResourceImage(\"data/Goku_start.png\");\r\n\t\tnormalRunAnim = new Animation(100);\r\n\r\n//\t\tnormalRunAnim.addFrame(Resource.getResourceImage(\"data/normal_run_1.png\"));\r\n//\t\tnormalRunAnim.addFrame(Resource.getResourceImage(\"data/normal_run_2.png\"));\r\n//\r\n//\t\t\r\n//\t\tjumping = Resource.getResourceImage(\"data/jumping.png\");\r\n\r\n\t\tnormalRunAnim.addFrame(Resource.getResourceImage(\"data/Goku_run_1.png\"));\r\n\t\tnormalRunAnim.addFrame(Resource.getResourceImage(\"data/Goku_run_2.png\"));\r\n\t\tnormalRunAnim.addFrame(Resource.getResourceImage(\"data/Goku_run_3.png\"));\r\n\t\tnormalRunAnim.addFrame(Resource.getResourceImage(\"data/Goku_run_4.png\"));\r\n\t\tnormalRunAnim.addFrame(Resource.getResourceImage(\"data/Goku_run_5.png\"));\r\n\t\tnormalRunAnim.addFrame(Resource.getResourceImage(\"data/Goku_run_6.png\"));\r\n\r\n\t\tjumping = Resource.getResourceImage(\"data/Goku_jump.png\");\r\n\r\n\t\t\r\n\t\tdownRunAnim = new Animation(60);\r\n\t\tdownRunAnim.addFrame(Resource.getResourceImage(\"data/Goku_down_run.png\"));\r\n\r\n\t\t//downRunAnim.addFrame(Resource.getResourceImage(\"data/main-character6.png\"));\r\n\r\n\t\tdeathImage = Resource.getResourceImage(\"data/Goku_death.png\");\r\n\t\tattackAnim = new Animation(100);\r\n\t\tattackAnim.addFrame(Resource.getResourceImage(\"data/Goku_attack_1.png\"));\r\n\t\tattackAnim.addFrame(Resource.getResourceImage(\"data/Goku_attack_2.png\"));\r\n\t\ttry {\r\n\t\t\tjumpSound = Applet.newAudioClip(new URL(\"file\",\"\",\"data/jump.wav\"));\r\n\t\t\tdeadSound = Applet.newAudioClip(new URL(\"file\",\"\",\"data/dead.wav\"));\r\n\t\t\tscoreUpSound = Applet.newAudioClip(new URL(\"file\",\"\",\"data/scoreup.wav\"));\r\n\t\t} catch (MalformedURLException e) {\r\n\t\t\te.printStackTrace();\r\n\t\t}\r\n\t\t\r\n\t}\r\n\r\n\tpublic float getSpeedX() {\r\n\t\treturn speedX;\r\n\t}\r\n\r\n\tpublic void setSpeedX(float speedX) {\r\n\t\tthis.speedX = speedX;\r\n\t}\r\n\t\r\n\tpublic void draw(Graphics g) {\r\n\t\tswitch(state) {\r\n\t\t\tcase NORMAL_RUN:\r\n\t\t\t\tg.drawImage(normalRunAnim.getFrame(), (int)posX, (int)posY, null);\r\n\t\t\t\tbreak;\r\n\t\t\tcase JUMPING:\r\n\t\t\t\tg.drawImage(jumping, (int)posX, (int)posY, null);\r\n\t\t\t\tbreak;\r\n\t\t\tcase DOWN_RUN:\r\n\t\t\t\tg.drawImage(downRunAnim.getFrame(), (int)posX, (int)(posY + 20), null);\r\n\t\t\t\tbreak;\r\n\t\t\tcase DEATH:\r\n\t\t\t\tg.drawImage(deathImage, (int)posX, (int)posY, null);\r\n\t\t\t\tbreak;\r\n\t\t\tcase START: \r\n\t\t\t\tg.drawImage(startImage, (int)posX, (int)posY - 5, null);\r\n\t\t\t\tbreak;\r\n\t\t\tcase ATTACK:\r\n\t\t\t\tg.drawImage(attackAnim.getFrame(), (int)posX, (int)posY, null);\r\n\t\t\t\tbreak;\r\n\t\t}\r\n\t\tRectangle bound = getBound();\r\n\t\tg.setColor(Color.RED);\r\n\t\tg.drawRect(bound.x, bound.y, bound.width, bound.height);\r\n\t}\r\n\t\r\n\tpublic void update() {\r\n\t\tnormalRunAnim.updateFrame();\r\n\t\tdownRunAnim.updateFrame();\r\n//\t\tattackAnim.updateFrame();\r\n\t\tif (posY >= LAND_POSY) {\r\n\t\t\tposY = LAND_POSY;\r\n\t\t\tif (state != DOWN_RUN) {\r\n\t\t\t\tstate = NORMAL_RUN;\r\n\t\t\t}\r\n\t\t}\r\n\t\telse {\r\n\t\t\tspeedY += GRAVITY;\r\n\t\t\tposY += speedY;\r\n\t\t}\r\n//\t\tSystem.out.println(\"posY=\"+posY);\r\n\t}\r\n\t\r\n\tpublic void jump () {\r\n\t\tif (posY >= LAND_POSY) {\r\n\t\t\tif (jumpSound != null) {\r\n\t\t\t\tjumpSound.play();\r\n\t\t\t}\r\n\t\t\tspeedY = -9.2f; //9->9.25 \r\n\t\t\tposY += speedY * 0.0675;\r\n\t\t\tstate = JUMPING;\r\n\t\t}\r\n\t}\r\n\t\r\n\tpublic void down(boolean isDown) {\r\n\t\tif (state == JUMPING) {\r\n\t\t\treturn;\r\n\t\t}\r\n\t\telse if (isDown) {\r\n\t\t\tstate = DOWN_RUN;\r\n\t\t}\r\n\t\telse {\r\n\t\t\tstate = NORMAL_RUN;\r\n\t\t}\r\n\t}\r\n\t\r\n\tpublic void attack(boolean isAttack) {\r\n//\t\tif (state == NORMAL_RUN) {\r\n//\t\t\treturn;\r\n//\t\t}\r\n\t\tif (isAttack) {\r\n\t\t\tstate = ATTACK;\r\n\t\t}\r\n//\t\telse {\r\n//\t\t\tstate = NORMAL_RUN;\r\n//\t\t}\r\n\t}\r\n\t\r\n\tpublic void dead(boolean isDeath) {\r\n\t\tif (isDeath) {\r\n\t\t\tstate = DEATH;\r\n\t\t}\r\n\t\telse {\r\n\t\t\tstate = NORMAL_RUN;\r\n\t\t}\r\n\t}\r\n\t\r\n\tpublic void reset() {\r\n\t\tposY = LAND_POSY;\r\n\t\tscore = 0;\r\n\t}\r\n\t\r\n\tpublic void playDeadSound() {\r\n\t\tdeadSound.play();\r\n\t}\r\n\t\r\n\tpublic void upScore() {\r\n\t\tscore += 20;\r\n\t\tif (score % 100 == 0) {\r\n\t\t\tscoreUpSound.play();\r\n\t\t}\r\n\t}\r\n\t\r\n\tpublic Rectangle getBound() {\r\n\t\trectBound = new Rectangle();\r\n\t\tif (state == DOWN_RUN) {\r\n\t\t\trectBound.x = (int)posX + 5;\r\n\t\t\trectBound.y = (int)posY + 20;\r\n\t\t\trectBound.width = downRunAnim.getFrame().getWidth() - 10;\r\n\t\t\trectBound.height = downRunAnim.getFrame().getHeight();\r\n\t\t}\r\n\t\telse if (state == NORMAL_RUN){\r\n\t\t\trectBound.x = (int)posX + 5;\r\n\t\t\trectBound.y = (int)posY;\r\n\t\t\trectBound.width = normalRunAnim.getFrame().getWidth() - 10;\r\n\t\t\trectBound.height = normalRunAnim.getFrame().getHeight();\r\n\t\t}\r\n\t\telse if (state == ATTACK){\r\n\t\t\trectBound.x = (int)posX + 5;\r\n\t\t\trectBound.y = (int)posY;\r\n\t\t\trectBound.width = attackAnim.getFrame().getWidth() - 10;\r\n\t\t\trectBound.height = attackAnim.getFrame().getHeight();\r\n\t\t}\r\n\t\treturn rectBound;\r\n\t}\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/gameobjects/MainCharacter.java b/src/gameobjects/MainCharacter.java
+--- a/src/gameobjects/MainCharacter.java	(revision eb76a3de131f0d2cc8c285125d0fac6bd6d72bdd)
++++ b/src/gameobjects/MainCharacter.java	(date 1687847911564)
+@@ -113,6 +113,7 @@
+ 				break;
+ 			case ATTACK:
+ 				g.drawImage(attackAnim.getFrame(), (int)posX, (int)posY, null);
++				Bullet z = new Bullet((int)posX, (int)posY);
+ 				break;
+ 		}
+ 		Rectangle bound = getBound();
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"90fc1af1-a965-4f46-ab47-44a8ff6537dc\" name=\"Changes\" comment=\"ks\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/bin/gameui/GameScreen.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/bin/gameui/GameScreen.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/gameui/GameScreen.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/gameui/GameScreen.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2Rgzjx86ntDd4PgNmGftDgRVnqr\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"SONARLINT_PRECOMMIT_ANALYSIS\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"Unnamed\" type=\"Application\" factoryName=\"Application\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"gameui.GameWindow\" />\r\n      <module name=\"OOPS\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"90fc1af1-a965-4f46-ab47-44a8ff6537dc\" name=\"Changes\" comment=\"\" />\r\n      <created>1687686653310</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1687686653310</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"ks\">\r\n      <created>1687688076799</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1687688076799</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"2\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"ks\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"ks\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision eb76a3de131f0d2cc8c285125d0fac6bd6d72bdd)
++++ b/.idea/workspace.xml	(date 1687850510635)
+@@ -4,15 +4,23 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="90fc1af1-a965-4f46-ab47-44a8ff6537dc" name="Changes" comment="ks">
++    <list default="true" id="aed62cc5-2c0b-434f-8165-9367b7c4c70d" name="Changes" comment="">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/bin/gameui/GameScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/gameui/GameScreen.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/bin/gameobjects/MainCharacter.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/gameobjects/MainCharacter.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/gameobjects/MainCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/MainCharacter.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/gameui/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameui/GameScreen.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
++  </component>
++  <component name="FileTemplateManagerImpl">
++    <option name="RECENT_TEMPLATES">
++      <list>
++        <option value="Class" />
++      </list>
++    </option>
+   </component>
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+@@ -20,46 +28,35 @@
+   <component name="MarkdownSettingsMigration">
+     <option name="stateVersion" value="1" />
+   </component>
+-  <component name="ProjectId" id="2Rgzjx86ntDd4PgNmGftDgRVnqr" />
++  <component name="ProjectId" id="2RdYoicqhXgkGOMqvegFM4fHqzO" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "SONARLINT_PRECOMMIT_ANALYSIS": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;last_opened_file_path&quot;: &quot;D:/OOP/OOPS/OOPS&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
+-  <component name="RunManager">
+-    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+-      <option name="MAIN_CLASS_NAME" value="gameui.GameWindow" />
+-      <module name="OOPS" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-  </component>
++}</component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+-      <changelist id="90fc1af1-a965-4f46-ab47-44a8ff6537dc" name="Changes" comment="" />
+-      <created>1687686653310</created>
++      <changelist id="aed62cc5-2c0b-434f-8165-9367b7c4c70d" name="Changes" comment="" />
++      <created>1687581601616</created>
+       <option name="number" value="Default" />
+       <option name="presentableId" value="Default" />
+-      <updated>1687686653310</updated>
++      <updated>1687581601616</updated>
++      <workItem from="1687581602697" duration="20000" />
+     </task>
+-    <task id="LOCAL-00001" summary="ks">
+-      <created>1687688076799</created>
+-      <option name="number" value="00001" />
+-      <option name="presentableId" value="LOCAL-00001" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1687688076799</updated>
+-    </task>
+-    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
++  <component name="TypeScriptGeneratedFilesManager">
++    <option name="version" value="3" />
++  </component>
+   <component name="Vcs.Log.Tabs.Properties">
+     <option name="TAB_STATES">
+       <map>
+@@ -71,8 +68,4 @@
+       </map>
+     </option>
+   </component>
+-  <component name="VcsManagerConfiguration">
+-    <MESSAGE value="ks" />
+-    <option name="LAST_COMMIT_MESSAGE" value="ks" />
+-  </component>
+ </project>
+\ No newline at end of file
