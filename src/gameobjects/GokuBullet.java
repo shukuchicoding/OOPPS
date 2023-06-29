@@ -48,10 +48,11 @@ public class GokuBullet {
 
     public Rectangle getBound() {
         rectBound = new Rectangle();
-        rectBound.x = (int) x + 5;
-        rectBound.y = (int) y + 5;
+        rectBound.x = (int) x - 5;
+        rectBound.y = (int) y - 5;
         rectBound.width = image.getWidth() - 10;
         rectBound.height = image.getHeight() - 10;
         return rectBound;
     }
+
 }

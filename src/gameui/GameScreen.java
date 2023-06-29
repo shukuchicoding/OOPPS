@@ -38,6 +38,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 	private BufferedImage bgGameImage;
 	private Rectangle bounds;
 
+	public boolean isDown;
 	public GameScreen() {
 
 		mainCharacter = new MainCharacter();
@@ -119,7 +120,6 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 
 			if (gameState == GAME_OVER_STATE) {
 				bullets.clear();
-
 				g.drawImage(gameOverButtonImage, 270, 20, null);
 
 				mainCharacter.setSpeedX(5);
@@ -186,9 +186,10 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 				break;
 			case GAME_PLAYING_STATE:
 				if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP) {
-					mainCharacter.jump();
+					mainCharacter.jump(true);
 				}
 				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					isDown = true;
 					mainCharacter.down(true);
 				}
 				if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -213,6 +214,9 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 		if (gameState == GAME_PLAYING_STATE) {
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				mainCharacter.down(false);
+			}
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				mainCharacter.jump(false);
 			}
 		}
 	}

@@ -74,6 +74,10 @@ public class GameManager extends GameSettings{
 				mabuBullet.remove(0);
 			}
 		}
+
+		if ( mainCharacter.score >= 200 * mainCharacter.level + 50){
+			mabuBulletSpeed++;
+		}
 	}
 	
 	public void mabuFire() {

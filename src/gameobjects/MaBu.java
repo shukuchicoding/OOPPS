@@ -5,7 +5,10 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import gameinterface.Object;
+import util.Animation;
 import util.Resource;
+
+import javax.xml.transform.Source;
 
 public class MaBu implements Object {
 
@@ -82,4 +85,5 @@ public class MaBu implements Object {
 	public void resetBeAttacked(){
 		beAttacked = 0;
 	}
+
 }
