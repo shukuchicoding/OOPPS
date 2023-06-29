@@ -54,9 +54,9 @@ public class GameManager extends GameSettings{
 			mabuPreviousShoot = System.currentTimeMillis();
 		}
 		if (this.isCollision1()) {
-			mabu.beAttacked++;
-			System.out.println(mabu.beAttacked);
-			if (mabu.beAttacked == mabu.getHitPoint()){
+			mabu.addBeAttacked();
+			System.out.println(mabu.getBeAttacked());
+			if (mabu.getBeAttacked() == mabu.getHitPoint()){
 				mabu.dead(true);
 			}
 		}

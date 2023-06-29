@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import gamemanager.GameManager;
 import gameobjects.*;
 import util.Resource;
+import gameinterface.GameSettings;
 
 public class GameScreen extends JPanel implements Runnable, KeyListener, MouseListener {
 	private static final int START_GAME_STATE = 0;
@@ -41,7 +42,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 
 		mainCharacter = new MainCharacter();
 		// land = new Land(GameWindow.SCREEN_WIDTH, mainCharacter);
-		mainCharacter.setSpeedX(10);
+		mainCharacter.setSpeedX(5);
 		replayButtonImage = Resource.getResourceImage("data/replay_button.png");
 		gameOverButtonImage = Resource.getResourceImage("data/gameover_text.png");
 		gameStartButtonImage = Resource.getResourceImage("data/gamestart_text.png");
@@ -120,7 +121,11 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 
 			if (gameState == GAME_OVER_STATE) {
 				bullets.clear();
+
 				g.drawImage(gameOverButtonImage, 270, 20, null);
+
+				mainCharacter.setSpeedX(5);
+
 				g.drawImage(replayButtonImage, 378, 74, null);
 				g.setColor(Color.WHITE);
 				g.drawString("TOTAL SCORE: " + mainCharacter.score, 330, 130);

@@ -33,6 +33,7 @@ public class MainCharacter {
 	public int score = 0;
 
 	private int state = START;
+	private int level;
 
 	private BufferedImage startImage;
 	private Animation normalRunAnim;
@@ -89,7 +90,8 @@ public class MainCharacter {
 			scoreUpSound = Applet.newAudioClip(new URL("file", "", "data/scoreup.wav"));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-		}		
+		}
+		this.level = 1;
 	}
 
 	public float getSpeedX() {
@@ -142,6 +144,11 @@ public class MainCharacter {
 			}else{
 				bullets.remove(w);
 			}
+		}
+
+		if ( this.score > 150 * level){
+			this.setSpeedX(speedX);
+			level++;
 		}
 		if (posY >= LAND_POSY) {
 			posY = LAND_POSY;

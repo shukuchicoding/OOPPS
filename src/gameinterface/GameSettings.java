@@ -13,5 +13,5 @@ public abstract class GameSettings {
 	
 	// MaBu bullet stats
 	public int mabuShootingPeriod = 5000; // milisecond
-	public float mabuBulletSpeed = 7.f;
+	public float mabuBulletSpeed = 5.f;
 }

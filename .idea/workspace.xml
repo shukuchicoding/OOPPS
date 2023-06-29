@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8e9b417-6cc7-4ca3-afa5-c3f912584115" name="Changes" comment="them dan k xuyen qua buu">
+    <list default="true" id="d8e9b417-6cc7-4ca3-afa5-c3f912584115" name="Changes" comment="doi ten game va them dan k xuyen qua buu va test buu dead">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameinterface/GameSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameinterface/GameSettings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gamemanager/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gamemanager/GameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gameobjects/MaBu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/MaBu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gameui/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameui/GameWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameobjects/MainCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameobjects/MainCharacter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameui/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameui/GameScreen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +36,15 @@
     "SONARLINT_PRECOMMIT_ANALYSIS": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="gameui.GameWindow" />
+      <module name="makeitagain" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -57,7 +68,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688044885167</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="doi ten game va them dan k xuyen qua buu va test buu dead">
+      <created>1688046108431</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1688046108431</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -73,6 +91,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="them dan k xuyen qua buu" />
-    <option name="LAST_COMMIT_MESSAGE" value="them dan k xuyen qua buu" />
+    <MESSAGE value="doi ten game va them dan k xuyen qua buu va test buu dead" />
+    <option name="LAST_COMMIT_MESSAGE" value="doi ten game va them dan k xuyen qua buu va test buu dead" />
   </component>
 </project>
