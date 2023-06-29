@@ -12,32 +12,31 @@ import gameobjects.*;
 import gameinterface.GameSettings;
 import util.Resource;
 
-public class GameManager extends GameSettings{
+public class GameManager extends GameSettings {
 	private MainCharacter mainCharacter;
 	private MaBu mabu;
-	
+
 	private BufferedImage tree;
 	private BufferedImage stone;
-	
+
 	private List<Object> obstacles;
 	private List<MabuBullet> mabuBullet;
-	
-	private Random rand;
-	
-	private long mabuPreviousShoot; // milisecond
 
+	private Random rand;
+
+	private long mabuPreviousShoot; // milisecond
 
 	public GameManager(MainCharacter mainCharacter) {
 		rand = new Random();
 		tree = Resource.getResourceImage("data/tree.png");
 		stone = Resource.getResourceImage("data/stone.png");
-		
+
 		this.mainCharacter = mainCharacter;
 		mabu = new MaBu(mabuPosX, mabuPosY, mabuSpeedY, mabuDirectionY);
-		
+
 		obstacles = new ArrayList<>();
 		obstacles.add(createObstacle());
-		
+
 		mabuBullet = new ArrayList<>();
 		mabuPreviousShoot = System.currentTimeMillis();
 	}
@@ -53,21 +52,22 @@ public class GameManager extends GameSettings{
 			mabuFire();
 			mabuPreviousShoot = System.currentTimeMillis();
 		}
+
 		if (this.isCollision1()) {
 			mabu.addBeAttacked();
 			mainCharacter.upScore(2);
-			System.out.println(mabu.getBeAttacked());
-			if (mabu.getBeAttacked() == mabu.getHitPoint()){
+
+			if (mabu.getBeAttacked() == mabu.getHitPoint()) {
 				mabu.dead(true);
 			}
 		}
 	}
-	
+
 	public void mabuBulletUpdate() {
-		for (MabuBullet bullet: mabuBullet) {
+		for (MabuBullet bullet : mabuBullet) {
 			bullet.update();
 		}
-		
+
 		if (mabuBullet.size() > 0) {
 			MabuBullet bullet = mabuBullet.get(0);
 			if (bullet.isOutOfScreen()) {
@@ -79,23 +79,25 @@ public class GameManager extends GameSettings{
 			mabuBulletSpeed++;
 		}
 	}
-	
+
 	public void mabuFire() {
-		Rectangle mabuBound = mabu.getBound();
-		mabuBullet.add(new MabuBullet(mabuBound.x, mabuBound.y, mabuBulletSpeed));
+		if (!mabu.isDead) {
+			Rectangle mabuBound = mabu.getBound();
+			mabuBullet.add(new MabuBullet(mabuBound.x, mabuBound.y, mabuBulletSpeed));
+		}
 	}
 
 	public void draw(Graphics g) {
 		mabu.draw(g);
-		
+
 		for (Object o : obstacles) {
 			o.draw(g);
 		}
-		
+
 		for (MabuBullet bullet : mabuBullet) {
 			bullet.draw(g);
 		}
-		
+
 		Object obstacle = obstacles.get(0);
 		if (obstacle.isOutOfScreen()) {
 			mainCharacter.upScore(1);
@@ -119,7 +121,7 @@ public class GameManager extends GameSettings{
 				return true;
 			}
 		}
-		for (MabuBullet bullet: mabuBullet) {
+		for (MabuBullet bullet : mabuBullet) {
 			if (mainCharacter.getBound().intersects(bullet.getBound())) {
 				return true;
 			}
@@ -155,7 +157,7 @@ public class GameManager extends GameSettings{
 
 	public boolean isCollision3() {
 		ArrayList bullets = MainCharacter.getBullets();
-		for (MabuBullet bullet: mabuBullet) {
+		for (MabuBullet bullet : mabuBullet) {
 			for (int w = 0; w < bullets.size(); w++) {
 				GokuBullet m = (GokuBullet) bullets.get(w);
 				if (m.getBound().intersects(bullet.getBound())) {

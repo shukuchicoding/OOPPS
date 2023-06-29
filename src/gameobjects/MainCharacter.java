@@ -33,7 +33,7 @@ public class MainCharacter {
 	public int score = 0;
 
 	private int state = START;
-	public int level;
+	private int level;
 
 	private BufferedImage startImage;
 	private Animation normalRunAnim;
@@ -149,8 +149,7 @@ public class MainCharacter {
 			}
 		}
 
-		if ( this.score >= 200 * level){
-			System.out.println("Level " + level);
+		if ( this.score > 200 * level){
 			speedX++;
 			level++;
 		}
@@ -167,16 +166,14 @@ public class MainCharacter {
 		}
 	}
 	
-	public void jump(boolean isJump) {
-		if (isJump) {
-			if (posY >= LAND_POSY) {
-				if (jumpSound != null) {
-					jumpSound.play();
-				}
-				speedY = -9.2f; //9->9.25
-				posY += speedY * 0.0675;
-				state = JUMPING;
+	public void jump() {
+		if (posY >= LAND_POSY) {
+			if (jumpSound != null) {
+				jumpSound.play();
 			}
+			speedY = -9.2f; //9->9.25 
+			posY += speedY * 0.0675;
+			state = JUMPING;
 		}
 	}
 	
