@@ -270,4 +270,8 @@ public class MainCharacter {
 		return attackCheck;
 	}
 
+	public int getLevel(){
+		return level;
+	}
+
 }

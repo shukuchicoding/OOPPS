@@ -75,7 +75,7 @@ public class GameManager extends GameSettings {
 			}
 		}
 
-		if ( mainCharacter.score >= 200 * mainCharacter.level + 50){
+		if ( mainCharacter.score >= 200 * mainCharacter.getLevel() + 50){
 			mabuBulletSpeed++;
 		}
 	}
