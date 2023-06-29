@@ -18,6 +18,8 @@ public class MaBu implements Object {
 	private int beAttacked;
 	private BufferedImage image;
 	private Rectangle rectBound;
+	public long deadTime;
+	public boolean isDead;
 
 	public MaBu(float posX, float posY, float speedY, int directionY) {
 		image = Resource.getResourceImage("data/Buu_0.png");
@@ -26,6 +28,8 @@ public class MaBu implements Object {
 		this.speedY = speedY;
 		this.directionY = directionY;
 		beAttacked = 0;
+		deadTime = 0;
+		isDead = false;
 	}
 
 	@Override
@@ -34,11 +38,17 @@ public class MaBu implements Object {
 			directionY *= -1;
 		}
 		posY += directionY * speedY;
+
+		if ((System.currentTimeMillis() - deadTime > 4000) && isDead) {
+			resetBeAttacked();
+		}
 	}
 
 	@Override
 	public void draw(Graphics g) {
-		g.drawImage(image, (int) posX, (int) posY, null);
+		if (!isDead) {
+			g.drawImage(image, (int) posX, (int) posY, null);
+		}
 	}
 
 	@Override
@@ -57,29 +67,29 @@ public class MaBu implements Object {
 		return false;
 	}
 
-
-	public void dead (boolean isDeath) {
-		System.out.println("Buu is dead");
-		beAttacked = 0;
-	}
-	
-	public void revive (boolean isRevive) {
-		
+	public void dead(boolean isDeath) {
+		isDead = true;
+		deadTime = System.currentTimeMillis();
 	}
 
-	public int getHitPoint(){
+	public void revive(boolean isRevive) {
+		isDead = false;
+	}
+
+	public int getHitPoint() {
 		return hitPoint;
 	}
 
-	public int getBeAttacked(){
+	public int getBeAttacked() {
 		return beAttacked;
 	}
 
-	public void addBeAttacked(){
+	public void addBeAttacked() {
 		beAttacked++;
 	}
 
-	public void resetBeAttacked(){
+	public void resetBeAttacked() {
 		beAttacked = 0;
+		isDead = false;
 	}
 }

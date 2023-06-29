@@ -2,7 +2,7 @@ package gameui;
 
 import javax.swing.*;
 
-public class                                                                                                                                                                     GameWindow extends JFrame {
+public class GameWindow extends JFrame {
 	public static final int SCREEN_WIDTH = 800;
 	private GameScreen gameScreen;
 
