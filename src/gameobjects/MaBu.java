@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import gameinterface.Object;
 import util.Animation;
 import util.Resource;
-import util.TimeInterval;
+//import util.TimeInterval;
 
 import javax.xml.transform.Source;
 
@@ -27,7 +27,7 @@ public class MaBu implements Object {
 	public float speedY;
 	public int directionY;
 
-	public int hitPoint = 3;
+	public int hitPoint = 5;
 	public int beAttacked;
 	public long deadTime;
 
