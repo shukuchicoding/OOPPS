@@ -8,8 +8,8 @@ import gameinterface.Object;
 import util.Resource;
 
 public class MabuBullet implements Object {
-	private float posX;
-	private float posY;
+	public float posX;
+	public float posY;
 	private float speedX;
 
 	private BufferedImage image;
@@ -30,9 +30,6 @@ public class MabuBullet implements Object {
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(image, (int) posX, (int) posY, null);
-//		Rectangle bound = getBound();
-//		g.setColor(Color.RED);
-//		g.drawRect(bound.x, bound.y, bound.width, bound.height);
 	}
 
 	@Override
