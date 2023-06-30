@@ -11,7 +11,7 @@ import gameinterface.Object;
 import gameobjects.*;
 import gameinterface.GameSettings;
 import util.Resource;
-import util.TimeInterval;
+//import util.TimeInterval;
 
 public class GameManager extends GameSettings {
 	private MainCharacter mainCharacter;

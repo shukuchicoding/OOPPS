@@ -31,10 +31,11 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 
 	private int gameState = START_GAME_STATE;
 
-	private BufferedImage startImage;
+//	private BufferedImage startImage;
 	private BufferedImage replayButtonImage;
 	private BufferedImage gameOverButtonImage;
 	private BufferedImage gameStartButtonImage;
+	private BufferedImage up_button, down_button, attack_button, space_button;
 	private BufferedImage bgGameImage;
 	private Rectangle bounds;
 
@@ -46,6 +47,10 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 		replayButtonImage = Resource.getResourceImage("data/replay_button.png");
 		gameOverButtonImage = Resource.getResourceImage("data/gameover_text.png");
 		gameStartButtonImage = Resource.getResourceImage("data/gamestart_text.png");
+		up_button = Resource.getResourceImage("data/up_button.png");
+		down_button = Resource.getResourceImage("data/down_button.png");
+		attack_button = Resource.getResourceImage("data/attack_button.png");
+		space_button = Resource.getResourceImage("data/space_button.png");
 		bgGameImage = Resource.getResourceImage("data/bg1.png");
 		enemyManager = new GameManager(mainCharacter);
 		clouds = new Cloud(GameWindow.SCREEN_WIDTH, mainCharacter);
@@ -77,7 +82,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.decode("#f7f7f7"));
-		g.fillRect(0, 0, getWidth(), getHeight());
+		g.fillRect(30, 30, getWidth(), getHeight());
 		g.drawImage(bgGameImage, 0, 0, null);
 		g.setFont(new Font("TimesRoman", Font.BOLD, 15));
 
@@ -86,8 +91,20 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 		switch (gameState) {
 			case START_GAME_STATE:
 				mainCharacter.draw(g);
+				int a = 60;
+				g.setColor(Color.WHITE);
 				g.drawImage(gameStartButtonImage, 250, 30, null);
 				bounds = new Rectangle(250, 30, 300, 49);
+				g.drawString("Jump", 250+a, 111);
+				g.drawImage(up_button, 300+a, 81, null);
+				g.drawString("or", 350+a, 111);
+				g.drawImage(space_button, 384+a, 81, null);
+				g.drawString("Down", 250+a, 143);
+				g.drawImage(down_button, 300+a, 113, null);
+				g.drawString("Attack", 250+a, 175);
+				g.drawImage(attack_button, 300+a, 145, null);
+				
+				
 				// g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
 				break;
 			case GAME_PLAYING_STATE:
