@@ -45,6 +45,7 @@ public class MainCharacter {
 	private AudioClip jumpSound;
 	private AudioClip deadSound;
 	private AudioClip scoreUpSound;
+	private AudioClip blastSound;
 
 	static ArrayList bullets;
 
@@ -88,6 +89,7 @@ public class MainCharacter {
 			jumpSound = Applet.newAudioClip(new URL("file", "", "data/jump.wav"));
 			deadSound = Applet.newAudioClip(new URL("file", "", "data/dead.wav"));
 			scoreUpSound = Applet.newAudioClip(new URL("file", "", "data/scoreup.wav"));
+			blastSound = Applet.newAudioClip(new URL("file", "", "data/blast.wav"));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -194,6 +196,7 @@ public class MainCharacter {
 //			return;
 //		}
 		if (isAttack) {
+			blastSound.play();
 			state = ATTACK;
 			attackCheck = true;
 		}

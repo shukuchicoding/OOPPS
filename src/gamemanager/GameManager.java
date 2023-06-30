@@ -155,6 +155,7 @@ public class GameManager extends GameSettings {
 			for (int w = 0; w < bullets.size(); w++) {
 				GokuBullet m = (GokuBullet) bullets.get(w);
 				if (mabu.getBound().intersects(m.getBound())) {
+					explosion = new Explosion(mabu.posX, mabu.posY);
 					bullets.remove(w);
 					return true;
 				}
