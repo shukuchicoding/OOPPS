@@ -24,6 +24,7 @@ public class GameManager extends GameSettings {
 	private List<MabuBullet> mabuBullet;
 
 	private Random rand;
+	public Explosion explosion;
 
 	public GameManager(MainCharacter mainCharacter) {
 		rand = new Random();
@@ -69,6 +70,9 @@ public class GameManager extends GameSettings {
 			}
 		}
 
+		if (explosion != null) {
+			explosion.update();
+		}
 	}
 
 	public void mabuBulletUpdate() {
@@ -90,7 +94,8 @@ public class GameManager extends GameSettings {
 
 	public void mabuFire() {
 		Rectangle mabuBound = mabu.getBound();
-		mabuBullet.add(new MabuBullet(mabuBound.x, mabuBound.y, mabuBulletSpeed));
+		mabuBullet.add(new MabuBullet(mabuBound.x, mabuBound.y,
+				mabuBulletSpeed + (int) (0.5 * (mainCharacter.getLevel() - 1))));
 	}
 
 	public void draw(Graphics g) {
@@ -110,6 +115,10 @@ public class GameManager extends GameSettings {
 			obstacles.remove(0);
 			obstacles.add(createObstacle());
 		}
+
+		if (explosion != null) {
+			explosion.draw(g);
+		}
 	}
 
 	private Object createObstacle() {
@@ -122,14 +131,14 @@ public class GameManager extends GameSettings {
 	}
 
 	public boolean isCollision() {
-		// goku bullet vs obstacles
+		// goku body vs obstacles
 		for (Object o : obstacles) {
 			if (mainCharacter.getBound().intersects(o.getBound())) {
 				return true;
 			}
 		}
 
-		// goku bullet vs mabu bullet
+		// goku body vs mabu bullet
 		for (MabuBullet bullet : mabuBullet) {
 			if (mainCharacter.getBound().intersects(bullet.getBound())) {
 				return true;
@@ -175,6 +184,7 @@ public class GameManager extends GameSettings {
 			for (int w = 0; w < bullets.size(); w++) {
 				GokuBullet m = (GokuBullet) bullets.get(w);
 				if (m.getBound().intersects(bullet.getBound())) {
+					explosion = new Explosion(bullet.posX, bullet.posY);
 					mabuBullet.remove(bullet);
 					return true;
 				}
@@ -188,5 +198,6 @@ public class GameManager extends GameSettings {
 		obstacles.add(createObstacle());
 		mabuBullet.clear();
 		mabu.resetBeAttacked();
+		explosion = null;
 	}
 }
