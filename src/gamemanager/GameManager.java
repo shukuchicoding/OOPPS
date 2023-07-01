@@ -1,5 +1,6 @@
 package gamemanager;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -64,7 +65,6 @@ public class GameManager extends GameSettings {
 			mabu.addBeAttacked();
 			mabu.beHit();
 			mainCharacter.upScore(2);
-
 			if (mabu.getBeAttacked() == mabu.getHitPoint()) {
 				mabu.dead(true);
 			}
@@ -157,6 +157,7 @@ public class GameManager extends GameSettings {
 				if (mabu.getBound().intersects(m.getBound())) {
 					explosion = new Explosion(mabu.posX, mabu.posY);
 					bullets.remove(w);
+					
 					return true;
 				}
 			}

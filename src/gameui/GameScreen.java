@@ -35,7 +35,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 	private BufferedImage replayButtonImage;
 	private BufferedImage gameOverButtonImage;
 	private BufferedImage gameStartButtonImage;
-	private BufferedImage up_button, down_button, attack_button, space_button;
+	private BufferedImage up_button, down_button1, down_button2, attack_button, space_button;
 	private BufferedImage bgGameImage;
 	private Rectangle bounds;
 
@@ -48,7 +48,8 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 		gameOverButtonImage = Resource.getResourceImage("data/gameover_text.png");
 		gameStartButtonImage = Resource.getResourceImage("data/gamestart_text.png");
 		up_button = Resource.getResourceImage("data/up_button.png");
-		down_button = Resource.getResourceImage("data/down_button.png");
+		down_button1 = Resource.getResourceImage("data/down_button.png");
+		down_button2 = Resource.getResourceImage("data/S_button.png");
 		attack_button = Resource.getResourceImage("data/attack_button.png");
 		space_button = Resource.getResourceImage("data/space_button.png");
 		bgGameImage = Resource.getResourceImage("data/bg1.png");
@@ -100,7 +101,9 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 				g.drawString("or", 350+a, 111);
 				g.drawImage(space_button, 384+a, 81, null);
 				g.drawString("Down", 250+a, 143);
-				g.drawImage(down_button, 300+a, 113, null);
+				g.drawImage(down_button1, 300+a, 113, null);
+				g.drawString("or", 350+a, 143);
+				g.drawImage(down_button2, 384+a, 113, null);
 				g.drawString("Attack", 250+a, 175);
 				g.drawImage(attack_button, 300+a, 145, null);
 				
@@ -202,7 +205,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 					if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP) {
 						mainCharacter.jump();
 					}
-					if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 						mainCharacter.down(true);
 					}
 					if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -225,7 +228,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener, MouseLi
 	public void keyReleased(KeyEvent e) {
 		isKeyPressed = false;
 		if (gameState == GAME_PLAYING_STATE) {
-			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 				mainCharacter.down(false);
 			}
 		}

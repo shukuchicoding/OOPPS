@@ -102,6 +102,7 @@ public class MaBu implements Object {
 				case BE_HIT:
 					g.drawImage(beHitImage,
 							(int) posX, (int) posY, null);
+					g.drawString(beAttacked + "/ " + hitPoint, 0, 10); 
 					break;
 				case WIN:
 					g.drawImage(winImage,
