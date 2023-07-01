@@ -131,9 +131,9 @@ public class MainCharacter {
 			//g.drawImage(attackAnim.getFrame(), (int) posX, (int) posY, null);
 			break;
 		}
-		Rectangle bound = getBound();
-		g.setColor(Color.RED);
-		g.drawRect(bound.x, bound.y, bound.width, bound.height);
+//		Rectangle bound = getBound();
+//		g.setColor(Color.RED);
+//		g.drawRect(bound.x, bound.y, bound.width, bound.height);
 	}
 	
 	public void update() {
