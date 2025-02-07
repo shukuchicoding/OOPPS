@@ -26,19 +26,6 @@ This project is an implementation of the Dino Run game using the Java, Java Swin
 
 4. Play the game
 
-## Wiring
-
-Connect your display, input button and buzzer according to your setup. Modify the pin configurations in the sketch if necessary.
-
-## Usage
-
-1. Power on your ESP32 with the sketch uploaded.
-
-2. Control the bird flying or the dinosaur running by using the designated buttons or sensors.
-
-3. Try to get through the pipes or the cactuses and score as many points as possible.
-
-4. Compete with friends or colleagues to achieve the highest score!
 
 ## Acknowledgments
 
